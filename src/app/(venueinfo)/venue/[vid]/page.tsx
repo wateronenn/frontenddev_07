@@ -34,6 +34,6 @@ export default async function venueDetailPage({params} : {params: Promise<{ vid:
     )
 }
 
-export async function generatestaticParams(){
+export async function generateStaticParams(){
     return [{vid:"001"},{vid:"002"},{vid:"003"}]
 }
