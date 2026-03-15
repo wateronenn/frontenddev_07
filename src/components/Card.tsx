@@ -17,10 +17,14 @@ export default function Card({venueName,imgSrc,venueDes,onCompare} : {venueName:
                     <h1 className='text-3xl font-bold text-blue-500 !mb-2'>{venueName}</h1>
                     <h3 className='text-xl text-black '>{venueDes}</h3>
             </div>
-            <div>
+            <div onClick={(e)=>{
+                e.stopPropagation();
+                
+            }}>
                 <Rating data-testid = {`${venueName} Rating`} name={`${venueName} Rating`} defaultValue={0} precision={0.5} 
                 onChange={(e,value)=>{
                     e.stopPropagation();
+                    e.preventDefault();
                     onCompare(venueName,value);
                 }}  
                 />

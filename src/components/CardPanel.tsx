@@ -1,11 +1,13 @@
 'use client'
+import { mock } from 'node:test'
 import Card from './Card'
 import { useReducer } from 'react'
+import Link from 'next/link'
 
 export default function CarPanel(){
     const compareReducer = (compareList:Map<string,number>,action:{type:string,venueName:string,value:number}) => {
         const newState = new Map(compareList)
-
+    
     switch (action.type) {
 
         case "set": {
@@ -31,24 +33,26 @@ export default function CarPanel(){
         ["The Grand Table", 0],
         ["The Bloom Pavilion", 0]
     ]))
+
+    const mockData = [
+        {vid:"001" , name : "The Bloom Pavilion" , img : "/img/RomacePavilion.jpg" , description : "wedding hall with antique style of decoration"},
+        {vid:"002" , name : "Spark Space" , img : "/img/ConcertHall.jpg", description :"conference hall for concert, show and musical entertainment" },
+        {vid:"003" , name : "The Grand Table" , img : "/img/DinnerMate.jpg" , description : "restaurant venue for big group dinner" }
+    ]
     return (
         <div>
             <div style={{margin:"20px",display:"flex",flexDirection:"row",flexWrap:"wrap",justifyContent:"space-around",alignContent:"space-around"}}>
-            <Card venueName="Spark Space" imgSrc = "/img/ConcertHall.jpg" venueDes="conference hall for concert, show and musical entertainment" 
-                onCompare={(venue:string,value:number)=>{
-                    dispatchCompare({type:'set',venueName:venue,value:value})
-                }}
-            />
-            <Card venueName="The Grand Table" imgSrc = "/img/DinnerMate.jpg" venueDes="restaurant venue for big group dinner" 
-                onCompare={(venue:string,value:number)=>{
-                    dispatchCompare({type:'set',venueName:venue,value:value})
-                }}
-            />
-            <Card venueName="The Bloom Pavilion" imgSrc = "/img/RomacePavilion.jpg" venueDes="wedding hall with antique style of decoration" 
-                onCompare={(venue:string,value:number)=>{
-                    dispatchCompare({type:'set',venueName:venue,value:value})
-                }}
-            />  
+            {
+                mockData.map((venueItem)=>(
+                    <Link key = {venueItem.vid} href={`/venue/${venueItem.vid}`} className='w-1/5'>
+                        <Card venueName={venueItem.name} imgSrc = {venueItem.img} venueDes={venueItem.description}
+                        onCompare={(venue:string,value:number)=>{
+                        dispatchCompare({type:'set',venueName:venue,value:value})
+                        }}
+                        />  
+                    </Link>
+                ))
+            }
             </div>
             <div className='flex justify-center  w-full text-xl text-white'>
                 Compare List : {compareList.size} 
